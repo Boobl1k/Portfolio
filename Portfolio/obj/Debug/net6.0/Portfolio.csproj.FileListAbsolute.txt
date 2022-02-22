@@ -5,7 +5,6 @@ C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.exe
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.deps.json
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.runtimeconfig.json
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.dll
-C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\ref\Portfolio.dll
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.pdb
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.csproj.AssemblyReference.cache
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.GeneratedMSBuildEditorConfig.editorconfig
@@ -24,3 +23,4 @@ C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.dll
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\ref\Portfolio.dll
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.pdb
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.genruntimeconfig.cache
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\refint\Portfolio.dll

@@ -21,6 +21,9 @@ public class HomeController : Controller
     public IActionResult Contact() =>
         View();
 
+    public IActionResult Work01() =>
+        View();
+
     public IActionResult Privacy() => 
         View();
 
