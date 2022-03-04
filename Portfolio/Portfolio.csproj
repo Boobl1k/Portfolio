@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Contacts\Partial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Qwe\Index.cshtml" />
     </ItemGroup>
 
 </Project>
