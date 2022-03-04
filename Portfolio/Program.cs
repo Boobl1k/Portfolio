@@ -1,9 +1,16 @@
+using Portfolio.Misc.Services.EmailSender;
 using Portfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddSingleton(builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>());
 
 var app = builder.Build();
 

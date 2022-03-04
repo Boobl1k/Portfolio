@@ -18,8 +18,6 @@ public class HomeController : Controller
     public IActionResult Blog() =>
         View();
 
-    public IActionResult Contact() =>
-        View();
 
     public IActionResult Work01() =>
         View();

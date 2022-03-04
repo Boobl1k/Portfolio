@@ -24,3 +24,9 @@ C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\ref\Portfolio.dll
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.pdb
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.genruntimeconfig.cache
 C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\refint\Portfolio.dll
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.Misc.dll
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\Portfolio.Misc.pdb
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\obj\Debug\net6.0\Portfolio.csproj.CopyComplete
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\MailKit.dll
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\MimeKit.dll
+C:\Users\Mansur\Desktop\Portfolio\Portfolio\bin\Debug\net6.0\BouncyCastle.Crypto.dll
