@@ -46,6 +46,7 @@
                     <li>
                         <a asp-controller="Contacts" asp-action="Index">Contact</a>
                     </li>
+                    <partial name="_LoginPartial"/>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -102,5 +103,9 @@
         </div>
     </div>
 </footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>
