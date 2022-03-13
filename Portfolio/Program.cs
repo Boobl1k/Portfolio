@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore;
 using Portfolio.DataAccess;
 using Portfolio.Misc.Services.EmailSender;
@@ -7,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>( /*options => options.UseSqlite(connectionString)*/);
+var msSqlConnectionString = builder.Configuration.GetConnectionString("MsSqlConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(msSqlConnectionString, action => 
+        action.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false /*true*/)

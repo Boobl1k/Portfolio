@@ -6,13 +6,7 @@ namespace Portfolio.DataAccess;
 
 public class ApplicationDbContext : IdentityDbContext
 {
-    //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(Settings.MsSqlConnectionString);
-        base.OnConfiguring(optionsBuilder);
-    }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Request> Requests { get; set; } = null!;
 }

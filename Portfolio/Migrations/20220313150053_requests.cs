@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Portfolio.DataAccess.Migrations
+namespace Portfolio.Migrations
 {
     public partial class requests : Migration
     {
