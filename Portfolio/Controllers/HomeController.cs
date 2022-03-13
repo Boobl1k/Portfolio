@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Portfolio.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Portfolio.Controllers;
 
