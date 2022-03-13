@@ -4,7 +4,7 @@
 
 namespace Portfolio.DataAccess.Migrations
 {
-    public partial class init : Migration
+    public partial class requests : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

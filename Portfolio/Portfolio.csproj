@@ -4,16 +4,19 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-Portfolio-6EB6A333-649F-4EFE-AA63-3B1FE0EC6007</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Portfolio.DataAccess\Portfolio.DataAccess.csproj" />
+      <ProjectReference Include="..\Portfolio.Entity\Portfolio.Entity.csproj" />
       <ProjectReference Include="..\Portfolio.Misc\Portfolio.Misc.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\Contacts\Partial.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Qwe\Index.cshtml" />
+      <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
     </ItemGroup>
 
 </Project>

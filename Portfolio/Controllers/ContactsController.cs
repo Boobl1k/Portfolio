@@ -8,9 +8,9 @@ namespace Portfolio.Controllers;
 public class ContactsController : Controller
 {
     private readonly IEmailService _emailService;
-    private readonly MyContext _dataContext;
+    private readonly ApplicationDbContext _dataContext;
 
-    public ContactsController(IEmailService emailService, MyContext dataContext)
+    public ContactsController(IEmailService emailService, ApplicationDbContext dataContext)
     {
         _emailService = emailService;
         _dataContext = dataContext;
