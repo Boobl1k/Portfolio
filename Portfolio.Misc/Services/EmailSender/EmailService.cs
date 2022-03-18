@@ -5,10 +5,19 @@ namespace Portfolio.Misc.Services.EmailSender;
 
 public class EmailService : IEmailService
 {
-    private readonly EmailConfiguration _config;
+    private static EmailService? _instance;
+    private static readonly object locker = new();
+    private static readonly Exception notConfiguredException = new("EmailService is not configured");
+    public static EmailService Instance => _instance ?? throw notConfiguredException;
 
-    public EmailService(EmailConfiguration config) =>
-        _config = config;
+    public static EmailService GetInstance(EmailConfiguration? config = default)
+    {
+        if (_instance is { }) return _instance;
+        lock (locker) return _instance ??= config is { } ? new EmailService(config) : throw notConfiguredException;
+    }
+
+    private readonly EmailConfiguration _config;
+    private EmailService(EmailConfiguration config) => _config = config;
 
     public async Task SendMessageAsync(string email, string message, string name, string subject)
     {
@@ -22,7 +31,7 @@ public class EmailService : IEmailService
         mime.To.Add(new MailboxAddress(name, email));
         mime.Subject = subject;
         mime.Body = new TextPart(MimeKit.Text.TextFormat.Text) {Text = message};
-        
+
         await client.SendAsync(mime);
     }
 }

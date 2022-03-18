@@ -9,26 +9,29 @@ using Portfolio.Services;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+//database
 services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection"), action =>
         action.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
-services.AddDatabaseDeveloperPageExceptionFilter();
 
 services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    }).AddIdentityCookies();
-services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+}).AddIdentityCookies();
+services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddDefaultUI()
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+//email
 services
-    .AddSingleton(builder.Configuration.GetSection(nameof(EmailConfiguration)).Get<EmailConfiguration>())
-    .AddScoped<IEmailService, EmailService>()
-    .AddTransient<IEmailSender, EmailSenderIdentityAdapter>();
+    .AddSingleton<IEmailService>(EmailService.GetInstance(
+        builder.Configuration.GetSection(nameof(EmailConfiguration)).Get<EmailConfiguration>()))
+    .AddSingleton<IEmailSender, EmailSenderIdentityAdapter>();
 
+//pages, mvc
+services.AddRazorPages();
 services.AddControllersWithViews();
 
 var app = builder.Build();
