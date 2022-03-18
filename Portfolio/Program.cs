@@ -1,47 +1,46 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-//using Microsoft.EntityFrameworkCore;
 using Portfolio.DataAccess;
 using Portfolio.Misc.Services.EmailSender;
+using Portfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
-// Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var msSqlConnectionString = builder.Configuration.GetConnectionString("MsSqlConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(msSqlConnectionString, action => 
+services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection"), action =>
         action.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false /*true*/)
+services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    }).AddIdentityCookies();
+services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddSingleton(builder.Configuration.Get<EmailConfiguration>());
-builder.Services.AddScoped<IEmailService, EmailService>();
+services
+    .AddSingleton(builder.Configuration.GetSection(nameof(EmailConfiguration)).Get<EmailConfiguration>())
+    .AddScoped<IEmailService, EmailService>()
+    .AddTransient<IEmailSender, EmailSenderIdentityAdapter>();
 
-builder.Services.AddControllersWithViews();
+services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-    app.UseMigrationsEndPoint();
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
+(app.Environment.IsDevelopment()
+        ? app.UseMigrationsEndPoint()
+        : app.UseExceptionHandler("/Home/Error").UseHsts())
+    .UseHttpsRedirection()
+    .UseStaticFiles()
+    .UseRouting()
+    .UseAuthentication()
+    .UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
