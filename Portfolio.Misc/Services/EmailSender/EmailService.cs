@@ -1,37 +1,53 @@
+using System.Text;
 using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace Portfolio.Misc.Services.EmailSender;
 
-public class EmailService : IEmailService
+public class EmailService : IEmailService, IDisposable
 {
-    private static EmailService? _instance;
-    private static readonly object locker = new();
-    private static readonly Exception notConfiguredException = new("EmailService is not configured");
-    public static EmailService Instance => _instance ?? throw notConfiguredException;
+    private readonly EmailConfiguration _config;
 
-    public static EmailService GetInstance(EmailConfiguration? config = default)
+    private readonly Task<Task> _connectionTask;
+    private async Task Connect() => await await _connectionTask;
+
+    public EmailService(EmailConfiguration config)
     {
-        if (_instance is { }) return _instance;
-        lock (locker) return _instance ??= config is { } ? new EmailService(config) : throw notConfiguredException;
+        _config = config;
+        _connectionTask = _client.ConnectAsync(_config.SmtpServer, _config.Port, true).ContinueWith(_ =>
+            _client.AuthenticateAsync(_config.UserName, _config.Password));
     }
 
-    private readonly EmailConfiguration _config;
-    private EmailService(EmailConfiguration config) => _config = config;
+    private readonly SmtpClient _client = new();
 
-    public async Task SendMessageAsync(string email, string message, string name, string subject)
+    public async Task SendMessageAsync(string email, string message, string name, string subject,
+        CancellationToken cancellationToken = default)
     {
-        using var client = new SmtpClient();
-        await client.ConnectAsync(_config.SmtpServer, _config.Port, true);
-        client.AuthenticationMechanisms.Remove("XOAUTH2");
-        await client.AuthenticateAsync(_config.UserName, _config.Password);
-
         var mime = new MimeMessage();
         mime.From.Add(new MailboxAddress("qweqweqwe", _config.From));
         mime.To.Add(new MailboxAddress(name, email));
         mime.Subject = subject;
-        mime.Body = new TextPart(MimeKit.Text.TextFormat.Text) {Text = message};
 
-        await client.SendAsync(mime);
+        var multipart = new Multipart("Mixed");
+        multipart.Add(new TextPart(MimeKit.Text.TextFormat.Text) {Text = message});
+
+        multipart.Add(new MimePart("text", "txt")
+        {
+            Content = new MimeContent(new MemoryStream(Encoding.UTF8.GetBytes(message))),
+            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+            ContentTransferEncoding = ContentEncoding.Base64,
+            FileName = "text.txt"
+        });
+
+        mime.Body = multipart;
+
+        await Connect();
+        await _client.SendAsync(mime, cancellationToken);
+    }
+
+    public void Dispose()
+    {
+        _client.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

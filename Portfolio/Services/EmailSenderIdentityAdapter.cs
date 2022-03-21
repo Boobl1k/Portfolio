@@ -11,5 +11,5 @@ public class EmailSenderIdentityAdapter : IEmailSender
         _emailService = emailService;
 
     public async Task SendEmailAsync(string email, string subject, string htmlMessage) => 
-        await _emailService.SendMessageAsync(email, htmlMessage, "qwe", subject);
+        await _emailService.SendMessageAsync(email, htmlMessage, "qwe", subject, CancellationToken.None);
 }

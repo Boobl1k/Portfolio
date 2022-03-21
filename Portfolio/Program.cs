@@ -19,15 +19,15 @@ services.AddAuthentication(options =>
     options.DefaultScheme = IdentityConstants.ApplicationScheme;
     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 }).AddIdentityCookies();
-services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+services.AddIdentityCore<IdentityUser>(options => { })
     .AddDefaultUI()
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 //email
 services
-    .AddSingleton<IEmailService>(EmailService.GetInstance(
-        builder.Configuration.GetSection(nameof(EmailConfiguration)).Get<EmailConfiguration>()))
+    .AddSingleton(builder.Configuration.GetSection(nameof(EmailConfiguration)).Get<EmailConfiguration>())
+    .AddSingleton<IEmailService, EmailService>()
     .AddSingleton<IEmailSender, EmailSenderIdentityAdapter>();
 
 //pages, mvc

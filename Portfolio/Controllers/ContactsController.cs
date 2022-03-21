@@ -23,11 +23,11 @@ public class ContactsController : Controller
     public record MessageModel(string Name, string Email, string Subject, string Message);
 
     [HttpPost]
-    public IActionResult SendMessage([FromForm] MessageModel message1)
+    public async Task<IActionResult> SendMessage([FromForm] MessageModel msg)
     {
-        _dataContext.Requests.Add(new Request(0, message1.Name, message1.Email, message1.Subject, message1.Message));
-        _dataContext.SaveChanges();
-        //_emailService.SendMessageAsync(message1.Email, message1.Message, message1.Name, message1.Subject);
+        _dataContext.Requests.Add(new Request(0, msg.Name, msg.Email, msg.Subject, msg.Message));
+        await _dataContext.SaveChangesAsync();
+        await _emailService.SendMessageAsync(msg.Email, msg.Message, msg.Name, msg.Subject);
         return RedirectToAction("Index");
     }
 }
