@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.DataAccess;
+using Portfolio.Entity;
 using Portfolio.Misc.Services.EmailSender;
 using Portfolio.Services;
 
@@ -14,14 +15,7 @@ services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MsSqlConnection"), action =>
         action.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
 
-services.AddAuthentication(options =>
-{
-    options.DefaultScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-}).AddIdentityCookies();
-services.AddIdentityCore<IdentityUser>(options => { })
-    .AddDefaultUI()
-    .AddDefaultTokenProviders()
+services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 //email

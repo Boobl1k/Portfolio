@@ -46,7 +46,23 @@
                     <li>
                         <a asp-controller="Contacts" asp-action="Index">Contact</a>
                     </li>
-                    <partial name="_LoginPartial"/>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li>
+                            <form id="logoffForm" method="post" asp-controller="Auth" asp-action="Logoff">
+                                <input type="submit" value="Logoff"/>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Auth" asp-action="Login">Sign in</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Auth" asp-action="Register">Sign up</a>
+                        </li>
+                    }
                 </ul>
             </div>
             <!--/.nav-collapse -->

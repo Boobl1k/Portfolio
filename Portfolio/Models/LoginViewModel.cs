@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace testMvc.Models;
+namespace Portfolio.Models;
 
 public class LoginViewModel
 {

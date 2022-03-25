@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace testMvc.Entities;
+namespace Portfolio.Entity;
 
 public class User : IdentityUser
 {
