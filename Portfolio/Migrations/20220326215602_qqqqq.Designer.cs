@@ -12,8 +12,8 @@ using Portfolio.DataAccess;
 namespace Portfolio.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220325213858_init")]
-    partial class init
+    [Migration("20220326215602_qqqqq")]
+    partial class qqqqq
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,6 +157,53 @@ namespace Portfolio.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Portfolio.Entity.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Portfolio.Entity.PostTag", b =>
+                {
+                    b.Property<int>("PostId")
+                        .HasColumnType("int")
+                        .HasColumnName("PostId");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int")
+                        .HasColumnName("TagId");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTag");
+                });
+
             modelBuilder.Entity("Portfolio.Entity.Request", b =>
                 {
                     b.Property<int>("Id")
@@ -184,6 +231,25 @@ namespace Portfolio.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("Portfolio.Entity.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Portfolio.Entity.User", b =>
@@ -303,6 +369,46 @@ namespace Portfolio.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Portfolio.Entity.Post", b =>
+                {
+                    b.HasOne("Portfolio.Entity.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Portfolio.Entity.PostTag", b =>
+                {
+                    b.HasOne("Portfolio.Entity.Post", "Post")
+                        .WithMany("PostTags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Portfolio.Entity.Tag", "Tag")
+                        .WithMany("PostTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("Portfolio.Entity.Post", b =>
+                {
+                    b.Navigation("PostTags");
+                });
+
+            modelBuilder.Entity("Portfolio.Entity.Tag", b =>
+                {
+                    b.Navigation("PostTags");
                 });
 #pragma warning restore 612, 618
         }

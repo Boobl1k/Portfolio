@@ -17,9 +17,18 @@ public class BlogController : Controller
         _userManager = userManager;
     }
 
+    private record Qwe(Post Post, User Author);
     [HttpGet]
-    public IActionResult Index() =>
-        View(_dataContext.Posts);
+    public IActionResult Index()
+    {
+        var posts = _dataContext.Posts;
+        var qwe = posts.Select(post => new Qwe(post, _dataContext.Users.First(user => user.Id == post.AuthorId)));
+        foreach (var q in qwe)
+        {
+            q.Post.Author = q.Author;
+        }
+        return View(posts);
+    }
 
     [HttpGet]
     public IActionResult Blog([FromQuery] int postId)
