@@ -6,31 +6,25 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger) => 
+    public HomeController(ILogger<HomeController> logger) =>
         _logger = logger;
 
-    public IActionResult Index() => 
+    public IActionResult Index() =>
         View();
-
-
-    public IActionResult Work() => 
+    
+    public IActionResult Work() =>
         View();
 
     public IActionResult About() =>
         View();
-    
-    public IActionResult Blog() =>
-        View();
-
 
     public IActionResult Work01() =>
         View();
 
-    
-    public IActionResult Privacy() => 
+    public IActionResult Privacy() =>
         View();
 
     //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     //public IActionResult Error() => 
-      //  View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+    //  View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
 }

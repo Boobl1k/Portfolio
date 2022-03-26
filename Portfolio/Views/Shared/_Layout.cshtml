@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@{ var authenticated = User.Identity?.IsAuthenticated ?? false; }
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -41,12 +43,18 @@
                         <a asp-controller="Home" asp-action="About">About</a>
                     </li>
                     <li>
-                        <a asp-controller="Home" asp-action="Blog">Blog</a>
+                        <a asp-controller="Blog" asp-action="Index">Blog</a>
                     </li>
+                    @if (authenticated)
+                    {
+                        <li>
+                            <a asp-controller="Blog" asp-action="AddBlog">Add Blog</a>
+                        </li>
+                    }
                     <li>
                         <a asp-controller="Contacts" asp-action="Index">Contact</a>
                     </li>
-                    @if (User.Identity?.IsAuthenticated ?? false)
+                    @if (authenticated)
                     {
                         <li>
                             <form id="logoffForm" method="post" asp-controller="Auth" asp-action="Logoff">

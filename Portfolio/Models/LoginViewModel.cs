@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Portfolio.Models;
 
@@ -13,5 +14,6 @@ public class LoginViewModel
     [Display(Name = "Remember me")]
     public bool RememberMe { get; set; }
          
+    [HiddenInput(DisplayValue = false)]
     public string? ReturnUrl { get; set; }
 }

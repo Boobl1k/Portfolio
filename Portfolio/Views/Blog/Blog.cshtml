@@ -1,0 +1,39 @@
+@using System.Text
+@model Portfolio.Entity.Post
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<!-- +++++ Post +++++ -->
+<div id="white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>
+                    <img src="img/user.png" width="50px" height="50px">
+                    <ba>Stanley Stinson</ba>
+                </p>
+                <p>
+                    <bd>@Model.Date</bd>
+                </p>
+                <h4>@Model.Title</h4>
+                <h2>@Model.PostTags.Aggregate(new StringBuilder(), (builder, tag) => builder.Append(tag.Name)).ToString()</h2>
+                <p>@Model.Text</p>
+                <br>
+                <p>
+                    <bt>TAGS: <a href="#">Wordpress</a> - <a href="#">Web Design</a></bt>
+                </p>
+                <hr>
+                <p>
+                    <a asp-controller="Blog" asp-action="Index"># Back</a>
+                </p>
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /white -->

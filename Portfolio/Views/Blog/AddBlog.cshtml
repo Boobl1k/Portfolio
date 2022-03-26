@@ -1,0 +1,12 @@
+@model AddPostViewModel
+
+@{
+    ViewBag.Title = "AddBlog";
+    Layout = "_Layout";
+}
+
+<form method="Post" asp-controller="Blog" asp-action="AddBlog">
+    <div asp-validation-summary="ModelOnly"></div>
+    @Html.EditorForModel()
+    <input type="submit" value="submit"/>
+</form>
