@@ -24,6 +24,12 @@ services
     .AddSingleton<IEmailService, EmailService>()
     .AddSingleton<IEmailSender, EmailSenderIdentityAdapter>();
 
+services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = new PathString("/Auth/Login");
+    options.AccessDeniedPath = new PathString("/Home/AccessDenied");//TODO
+});
+
 //pages, mvc
 services.AddRazorPages();
 services.AddControllersWithViews();
