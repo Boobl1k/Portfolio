@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.DataAccess;
 using Portfolio.Entity;
 using Portfolio.Models;
@@ -17,18 +18,9 @@ public class BlogController : Controller
         _userManager = userManager;
     }
 
-    private record Qwe(Post Post, User Author);
     [HttpGet]
-    public IActionResult Index()
-    {
-        var posts = _dataContext.Posts;
-        var qwe = posts.Select(post => new Qwe(post, _dataContext.Users.First(user => user.Id == post.AuthorId)));
-        foreach (var q in qwe)
-        {
-            q.Post.Author = q.Author;
-        }
-        return View(posts);
-    }
+    public IActionResult Index() => 
+        View(_dataContext.Posts.Include(post => post.Author));
 
     [HttpGet]
     public IActionResult Blog([FromQuery] int postId)
