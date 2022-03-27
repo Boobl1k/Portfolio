@@ -64,7 +64,6 @@ public sealed class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logoff()
     {
-        Console.WriteLine("aaa\n\n\n\n\n");
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }

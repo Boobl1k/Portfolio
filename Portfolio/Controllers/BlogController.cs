@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ public class BlogController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     public IActionResult AddBlog() =>
         View(new AddPostViewModel
         {
@@ -46,6 +48,7 @@ public class BlogController : Controller
         });
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddBlog(AddPostViewModel model)
     {
         if (!ModelState.IsValid) return RedirectToAction("Index", "Home");
@@ -58,7 +61,7 @@ public class BlogController : Controller
         await _dataContext.SaveChangesAsync();
         var post = new Post
         {
-            Author = await _userManager.FindByIdAsync(_userManager.GetUserId(User)),
+            Author = await _userManager.FindByNameAsync(User.Identity!.Name),
             Title = model.Title,
             Text = model.Text,
             Date = DateTime.Now
