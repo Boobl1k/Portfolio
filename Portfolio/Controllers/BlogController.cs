@@ -26,16 +26,12 @@ public class BlogController : Controller
     public IActionResult Blog([FromQuery] int postId)
     {
         Console.WriteLine(postId);
-        var post = _dataContext.Posts.FirstOrDefault(post => post.Id == postId);
+        var post = _dataContext.Posts.Include(post => post.Tags).FirstOrDefault(post => post.Id == postId);
         if (post is null) return BadRequest();
-        var tags = _dataContext.Tags.Where(
-            tag => _dataContext.PostTag.Where(
-                    postTag => postTag.PostId == postId)
-                .Any(postTag => postTag.TagId == tag.Id));
         return View(new BlogViewModel
         {
             Author = post.Author,
-            Tags = tags,
+            Tags = post.Tags,
             Title = post.Title,
             Text = post.Text,
             Date = post.Date
@@ -69,13 +65,7 @@ public class BlogController : Controller
         };
         _dataContext.Posts.Add(post);
         await _dataContext.SaveChangesAsync();
-        post.PostTags = tags.Union(newTags).Select(tag => new PostTag
-        {
-            PostId = post.Id,
-            Post = post,
-            TagId = tag.Id,
-            Tag = tag
-        }).ToList();
+        post.Tags = tags.Union(newTags).ToList();
         await _dataContext.SaveChangesAsync();
         return RedirectToAction("Blog", new {postId = post.Id});
     }

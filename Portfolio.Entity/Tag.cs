@@ -8,5 +8,5 @@ public class Tag
 {
     [Required] public int Id { get; set; }
     [Required] public string Name { get; set; } = null!;
-    public ICollection<PostTag> PostTags { get; set; }
+    public List<Post>? Posts { get; set; }
 }
