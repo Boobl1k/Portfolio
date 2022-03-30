@@ -37,7 +37,7 @@ services.AddControllersWithViews();
 var app = builder.Build();
 
 (app.Environment.IsDevelopment()
-        ? app.UseMigrationsEndPoint()
+        ? app
         : app.UseExceptionHandler("/Home/Error").UseHsts())
     .UseHttpsRedirection()
     .UseStaticFiles()
