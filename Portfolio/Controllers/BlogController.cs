@@ -19,20 +19,33 @@ public class BlogController : Controller
         _userManager = userManager;
     }
 
+    public record PostSearchModel(int? TagId, string? PostTitle);
+
     [HttpGet]
-    public IActionResult Index() => 
-        View(_dataContext.Posts.Include(post => post.Author));
+    public IActionResult Index([FromQuery] PostSearchModel postSearchModel)
+    {
+        var (tagId, postTitle) = postSearchModel;
+        var posts = _dataContext.Posts.Include(post => post.Author) as IQueryable<Post>;
+        posts = tagId is { }
+            ? posts.Where(post => post.Tags!.Contains(new Tag {Id = (int) tagId,}))
+            : posts;
+        posts = postTitle is { }
+            ? posts.Where(post => post.Title.Contains(postTitle))
+            : posts;
+        return View(posts);
+    }
 
     [HttpGet]
     public IActionResult Blog([FromQuery] int postId)
     {
-        Console.WriteLine(postId);
-        var post = _dataContext.Posts.Include(post => post.Tags).FirstOrDefault(post => post.Id == postId);
+        var post = _dataContext.Posts
+            .Include(post => post.Tags)
+            .FirstOrDefault(post => post.Id == postId);
         if (post is null) return BadRequest();
         return View(new BlogViewModel
         {
             Author = post.Author,
-            Tags = post.Tags,
+            Tags = post.Tags!,
             Title = post.Title,
             Text = post.Text,
             Date = post.Date
