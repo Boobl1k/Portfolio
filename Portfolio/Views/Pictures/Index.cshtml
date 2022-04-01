@@ -1,0 +1,14 @@
+@model IQueryable<Portfolio.Entity.Picture>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+@foreach (var picture in Model)
+{
+    @Html.DisplayFor(_ => picture.Id)
+    @Html.Raw("<img style='width:80px; height:60px;' src=\"data:image/jpeg;base64," 
+              + Convert.ToBase64String(picture.Data) + "\" />")
+}

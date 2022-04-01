@@ -36,4 +36,8 @@
       <AdditionalFiles Include="Views\Auth\Register.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Pages" />
+    </ItemGroup>
+
 </Project>

@@ -11,4 +11,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Request> Requests { get; set; } = null!;
     public DbSet<Post> Posts { get; set; } = null!;
     public DbSet<Tag> Tags { get; set; } = null!;
+
+    public DbSet<Picture> Pictures { get; set; } = null!;
 }
