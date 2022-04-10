@@ -8,8 +8,8 @@
     </div>
     <div class="row mt">
         <div class="col-lg-8 col-lg-offset-2">
-            <form asp-controller="Contacts" asp-action="SendMessage" class="contact-form php-mail-form" role="form" method="POST">
-
+            @using (Html.BeginForm("SendMessage", "Contacts", FormMethod.Post))
+            {
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" id="contact-name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                     <div class="validate"></div>
@@ -35,8 +35,7 @@
                 <div class="form-send">
                     <button type="submit" class="btn btn-large">Send Message</button>
                 </div>
-
-            </form>
+            }
         </div>
     </div>
     <!-- /row -->

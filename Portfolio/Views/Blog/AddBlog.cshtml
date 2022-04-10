@@ -5,8 +5,11 @@
     Layout = "_Layout";
 }
 
-<form method="Post" asp-controller="Blog" asp-action="AddBlog">
+@using (Html.BeginForm("AddBlog", "Blog", FormMethod.Post))
+{
     <div asp-validation-summary="ModelOnly"></div>
     @Html.EditorForModel()
-    <input type="submit" value="submit"/>
-</form>
+    <div>
+        <input type="submit" value="submit"/>
+    </div>
+}

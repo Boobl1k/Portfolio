@@ -19,7 +19,7 @@
                     <bd>@Model.Date</bd>
                 </p>
                 <h4>@Model.Title</h4>
-                <h2>@Model.Tags.ToList().Aggregate(new StringBuilder(), (builder, tag) => builder.Append(tag.Name)).ToString()</h2>
+                <h2>@Model.Tags!.ToList().Aggregate(new StringBuilder(), (builder, tag) => builder.Append(tag.Name)).ToString()</h2>
                 <p>@Model.Text</p>
                 <br>
                 <p>

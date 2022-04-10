@@ -57,9 +57,10 @@
                     @if (authenticated)
                     {
                         <li>
-                            <form id="logoffForm" method="post" asp-controller="Auth" asp-action="Logoff">
+                            @using (Html.BeginForm("Logoff", "Auth", FormMethod.Post))
+                            {
                                 <input type="submit" value="Logoff"/>
-                            </form>
+                            }
                         </li>
                     }
                     else

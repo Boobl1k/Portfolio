@@ -1,3 +1,4 @@
+@using Portfolio.Extensions
 @model IQueryable<Portfolio.Entity.Post>
 
 <!-- +++++ Posts Lists +++++ -->
@@ -5,33 +6,5 @@
 @{ var white = false; }
 @foreach (var post in Model)
 {
-    <div id="@((white = !white) ? "white" : "grey")">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <p>
-                        <img src="~/img/user.png" width="50px" height="50px">
-                        <ba>@post.Author?.UserName</ba>
-                    </p>
-                    <p>
-                        <bd>@post.Date</bd>
-                    </p>
-                    <h4>@post.Title</h4>
-                    <p>
-                        @post.Text
-                    </p>
-                    <p>
-                        <form method="get" asp-controller="Blog" asp-action="Blog">
-                            <input type="hidden" name="postId" value="@post.Id"/>
-                            <input type="submit" value="Continue Reading..."/>
-                        </form>
-                    </p>
-                </div>
-
-            </div>
-            <!-- /row -->
-        </div>
-        <!-- /container -->
-    </div>
-    <!-- /grey -->
+    @Html.ShowBlog(post, white = !white)
 }
