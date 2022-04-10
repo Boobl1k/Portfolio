@@ -31,13 +31,12 @@ services.ConfigureApplicationCookie(options =>
 });
 
 //pages, mvc
-services.AddRazorPages();
 services.AddControllersWithViews();
 
 var app = builder.Build();
 
 (app.Environment.IsDevelopment()
-        ? app.UseMigrationsEndPoint()
+        ? app
         : app.UseExceptionHandler("/Home/Error").UseHsts())
     .UseHttpsRedirection()
     .UseStaticFiles()
@@ -48,6 +47,5 @@ var app = builder.Build();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
 
 app.Run();
